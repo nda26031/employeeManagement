@@ -43,6 +43,12 @@ public class Main {
         //TODO: change param to Department name and get all employee of that Department
         //hrManagement.listEmployeeWithDepartment(hrManager);
         //Connect API
+
+        //
+//        double salary = 5000;
+//        List<Salary> list = getFromAPI();
+//        if(salary in  list) -> tax rates;
+//        Khơi tạo Employee với salary và tax rate sau khi so sánh với API, store in db
         URL url = new URL("https://run.mocky.io/v3/fcfd722e-7879-482c-86e1-91c5a5c3a94e");
         //open connection
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -60,7 +66,6 @@ public class Main {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         //lúc này json đã thành Person object đối chiếu với kết quả của json nhận được
-
         Person person = gson.fromJson(String.valueOf(response), Person.class);
         System.out.println(person.toString());
     }
