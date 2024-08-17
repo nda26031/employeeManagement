@@ -11,21 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentManagement {
-//    //CREATE - add
-//    public void createDepartment(Department department, Connection connection) {
-//        try {
-//            String query = "INSERT INTO Department (departmentName, departmentLocation, departmentDescription, numberOfEmployees)" +
-//                    "VALUES (?, ?, ?, ?);";
-//
-//            PreparedStatement ps = connection.prepareStatement(query);
-//            ps.setString(1, department.getDepartmentName());
-//            ps.setInt(2, 0);
-//            ps.executeUpdate();
-//            System.out.println("Add department succesfully");
-//        } catch (SQLException e) {
-//            System.out.println("Add department fail " + e);
-//        }
-//    }
 
 //READ - get
 public List<Department> readAllDepartment(Connection connection) {
@@ -61,23 +46,4 @@ public List<Department> readAllDepartment(Connection connection) {
         }
         return departments;
     }
-
-//UPDATE - update
-
-
-//DELETE - delete
-public void deleteDepartment(Department department, Connection connection) {
-//    try {
-//        String query = "DELETE FROM `employee`.`employee` WHERE (`employeeID` = ?);";
-//        PreparedStatement preparedStatement = connection.prepareStatement(query);
-//        preparedStatement.setInt(1, department.getDepartmentID());
-//
-//        if(preparedStatement.executeUpdate()<0){
-//            System.out.println("Delete department fail ");
-//        }
-//        System.out.println("Delete department succesful");
-//    } catch (SQLException e) {
-//        System.out.println("Delete department fail " + e);
-//    }
-}
 }

@@ -6,32 +6,9 @@ import org.example.data.Employee;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class EmployeeManagement {
-    public void createEmployee(Employee employee, Connection connection) {
-//        try {
-//
-//            String query = "BEGIN;" +
-//                    "INSERT INTO Employee (employeeName, employeePhoneNumber, employeeJobTitle, employeeSalary, departmentID)" +
-//                    "VALUES (?, ?, ?, ?, ?);" +
-//                    "UPDATE Department SET `numberOfEmployees` = `numberOfEmployees` + 1 WHERE `departmentID` = ?;" +
-//                    "COMMIT;";
-//
-//            PreparedStatement ps = connection.prepareStatement(query);
-//            ps.setString(1, employee.getEmployeeName());
-//            ps.setString(2, employee.getEmployeePhoneNumber());
-//            ps.setString(3, employee.getEmployeeJobTitle());
-//            ps.setDouble(4, employee.getEmployeeSalary());
-//            ps.setInt(5, employee.getDepartmentID());
-//            ps.setInt(6, employee.getDepartmentID());
-//
-//            ps.executeUpdate();
-//            System.out.println("Add employee succesfully");
-//        } catch (SQLException e) {
-//            System.out.println("Add employee fail " + e);
-//        }
-    }
-
     public List<Employee> readEmployees(Connection connection) {
         List<Employee> employees = new ArrayList<>();
         String query = "SELECT * FROM employee.employee;";
@@ -44,17 +21,35 @@ public class EmployeeManagement {
                 employees.add(employee);
             }
         } catch (SQLException e) {
-            System.out.println("Read all department fail " + e);
+            System.out.println("Read all department fail: " + e);
         }
         return employees;
     }
 
-    public List<Employee> listEmployeeWithDepartment(Employee employee, Connection connection) {
+    public List<Employee> listEmployeeWithDepartment(Employee employee,Department department, Connection connection) {
+        System.out.println("Enter Department Name want to list: ");
+        department.setDepartmentName(new Scanner(System.in).nextLine());
+        String departmentId = "";
+        try {
+            String query1 = "SELECT * FROM employee.department WHERE (`departmentName` = ?);";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query1);
+            preparedStatement.setString(1,department.getDepartmentName());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            departmentId = resultSet.getString("departmentName");
+        }catch (SQLException e){
+            System.out.println("Can find department Name" + e);
+        }
+
+        System.out.println("DPName : " + departmentId);
+
         List<Employee> employees = new ArrayList<>();
-        String query = "SELECT * FROM employee.employee WHERE (`getDepartmentID` = ?);";
+        String query = "SELECT * FROM employee.employee WHERE (`departmentID` = ?);";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1,employee.getDepartmentID());
+            preparedStatement.setString(1,departmentId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -65,21 +60,5 @@ public class EmployeeManagement {
             System.out.println("List employee fail " + e);
         }
         return employees;
-    }
-
-
-    public void deleteEmployee(Employee employee, Connection connection) {
-//        try {
-//            String query = "DELETE FROM `employee`.`employee` WHERE (`employeeID` = ?);";
-//            PreparedStatement preparedStatement = connection.prepareStatement(query);
-//            preparedStatement.setInt(1, employee.getEmployeeID());
-//
-//            if(preparedStatement.executeUpdate()<0){
-//                System.out.println("Delete employee fail ");
-//            }
-//            System.out.println("Delete department succesful");
-//        } catch (SQLException e) {
-//            System.out.println("Delete employee fail " + e);
-//        }
     }
 }
