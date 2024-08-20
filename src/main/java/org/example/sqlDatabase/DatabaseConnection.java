@@ -8,6 +8,19 @@ public class DatabaseConnection {
     final String PASSWORD = "";
     final String USER_NAME = "root";
 
+    private DatabaseConnection(){
+
+    }
+
+    private static DatabaseConnection databaseConnection;
+
+    public static DatabaseConnection getInstance(){
+        if (databaseConnection == null) {
+            databaseConnection = new DatabaseConnection();
+        }
+        return databaseConnection;
+    }
+
     public Connection getConnection(){
         return getConnection(DB_ULR,USER_NAME,PASSWORD);
     }

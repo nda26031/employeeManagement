@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.data.Department;
 import org.example.data.Employee;
+import org.example.data.HRManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class EmployeeManagement {
         return employees;
     }
 
-    public List<Employee> listEmployeeWithDepartment(Employee employee,Department department, Connection connection) {
+    public List<Employee> listEmployeeWithDepartment(Employee employee, Department department, Connection connection) {
         System.out.println("Enter Department Name want to list: ");
         department.setDepartmentName(new Scanner(System.in).nextLine());
         String departmentId = "";
@@ -37,8 +38,11 @@ public class EmployeeManagement {
             preparedStatement.setString(1,department.getDepartmentName());
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            departmentId = resultSet.getString("departmentName");
+            if (resultSet.next()) {
+                departmentId = resultSet.getString("departmentId");
+            }else {
+                System.out.println("Department not found.");
+            }
         }catch (SQLException e){
             System.out.println("Can find department Name" + e);
         }
@@ -59,6 +63,18 @@ public class EmployeeManagement {
         } catch (SQLException e) {
             System.out.println("List employee fail " + e);
         }
+
+        for (Employee emp : employees) {
+            System.out.println("Employee ID: " + emp.getEmployeeID());
+            System.out.println("Employee Name: " + emp.getEmployeeName());
+            System.out.println("Employee Phone Number: " + emp.getEmployeePhoneNumber());
+            System.out.println("Employee Job Title: " + emp.getEmployeeJobTitle());
+            System.out.println("Employee Salary: " + emp.getEmployeeSalary());
+            System.out.println("Department ID: " + emp.getDepartmentID());
+            System.out.println("-----------------------------");
+        }
+
+
         return employees;
     }
 }

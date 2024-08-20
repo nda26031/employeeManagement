@@ -155,13 +155,5 @@ public class HRManagement {
         }
     }
 
-//    Filter
-
-    public void listEmployeeWithDepartment(HRManager hrManager) {
-        System.out.println("Employee with department ID");
-        for (int i = 0; i < hrManager.getEmployees().size(); i++) {
-            System.out.println(hrManager.getEmployees().get(i).toString());
-        }
-    }
 
 }

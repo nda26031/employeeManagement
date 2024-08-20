@@ -1,7 +1,5 @@
 package org.example;
 
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
 import org.example.controller.DepartmentManagement;
 import org.example.controller.EmployeeManagement;
 import org.example.controller.HRManagement;
@@ -20,7 +18,8 @@ import java.sql.Connection;
 public class Main {
     public static void main(String[] args) throws IOException {
 //      Connect database
-        Connection conn = new DatabaseConnection().getConnection();
+        DatabaseConnection conn = DatabaseConnection.getInstance();
+        conn.getConnection();
 
 //      Initialization
         Employee employee = new Employee();
@@ -28,20 +27,20 @@ public class Main {
         Payroll payroll = new Payroll();
         EmployeeManagement employeeManagement = new EmployeeManagement();
         DepartmentManagement departmentManagement = new DepartmentManagement();
-        HRManager hrManager = new HRManager(employeeManagement.readEmployees(conn), departmentManagement.readAllDepartment(conn), null);
+        HRManager hrManager = new HRManager(employeeManagement.readEmployees((Connection) conn), departmentManagement.readAllDepartment((Connection)conn), null);
 
         HRManagement hrManagement = new HRManagement();
 
-//        hrManagement.addEmployee(employee, conn);
-//        hrManagement.addDepartment(department, conn);
+        hrManagement.readAllEmployee(hrManager);
+        hrManagement.readAllDepartment(hrManager);
+
+        hrManagement.addEmployee(employee, (Connection)conn);
+        hrManagement.addDepartment(department, (Connection)conn);
 //
-//        hrManagement.readAllDepartment(hrManager);
-//        hrManagement.readAllEmployee(hrManager);
-//
-//        hrManagement.deleteEmployee(employee, conn);
-//        hrManagement.deleteDepartment(department, conn);
-//      change param to Department name and get all employee of that Department
-        employeeManagement.listEmployeeWithDepartment(employee, department, conn);
+        hrManagement.deleteEmployee(employee, (Connection)conn);
+        hrManagement.deleteDepartment(department, (Connection)conn);
+
+        employeeManagement.listEmployeeWithDepartment(employee, department, (Connection)conn);
         //Connect API
     }
     }
